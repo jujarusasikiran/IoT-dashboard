@@ -12,6 +12,9 @@ const AUTO_REFRESH_MS = 60000; // auto refresh every 1 minute
 let autoRefreshTimer = null;
 let trendData = []; // stores last 10 readings
 
+// ✅ Backend base URL (your Render deployment)
+const API_BASE_URL = "https://iot-dashboard-j1qr.onrender.com";
+
 // Utility for formatting numbers
 function fmt(v, unit = "") {
   return v === null || v === undefined ? "N/A" : `${v.toFixed(1)} ${unit}`;
@@ -116,25 +119,23 @@ function drawTrendChart(city) {
   });
 }
 
-// Fetch weather data from backend
+// ✅ Fetch weather data from deployed backend
 async function fetchWeatherData(city, manual = false) {
   try {
     statusDiv.innerText = manual
       ? `🔄 Refreshing data for ${city}...`
       : `Fetching data for ${city}... (auto refresh every 60s)`;
 
-    const url = `http://localhost:5000/api/weather?city=${encodeURIComponent(city)}&t=${Date.now()}`;
+    const url = `${API_BASE_URL}/api/weather?city=${encodeURIComponent(city)}&t=${Date.now()}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const data = await res.json();
     if (data.error) throw new Error(data.error);
 
-    // Display numeric data and bar chart
     showNumericValues(data);
     drawBarChart(city, data);
 
-    // 🔥 Maintain last 10 readings in trendData
     const now = new Date().toLocaleTimeString();
     trendData.push({ time: now, temp: data.temp });
     if (trendData.length > 10) trendData.shift();
@@ -160,7 +161,7 @@ function resetAutoRefresh() {
 
 // Event listeners
 citySelect.addEventListener("change", () => {
-  trendData = []; // reset trend for new city
+  trendData = [];
   fetchWeatherData(citySelect.value);
   resetAutoRefresh();
 });
