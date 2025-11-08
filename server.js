@@ -4,19 +4,19 @@ require("dotenv").config();
 
 const app = express();
 
-// ✅ Allow access from both localhost (for testing) and deployed frontend (Vercel)
+// ✅ Allow access from localhost (testing) + Render + Vercel
 app.use(
   cors({
     origin: [
-      "http://localhost:5500", // local testing
-      "https://iot-dashboard-j1qr.onrender.com",
-      "https://io-t-dashboard-six.vercel.app"
+      "http://localhost:5500",                      // local testing
+      "https://iot-dashboard-j1qr.onrender.com",    // backend domain
+      "https://io-t-dashboard-a4wg.vercel.app"      // Vercel frontend
     ],
   })
 );
 
 
-// ✅ Use environment variables for security
+// ✅ API Key (use environment variable or fallback)
 const API_KEY = process.env.OPENWEATHER_API_KEY || "e5bdd8022442650012dc70f51425f226";
 
 // ✅ Coordinates for Indian cities
@@ -42,14 +42,12 @@ app.get("/api/weather", async (req, res) => {
       return res.status(400).json({ error: `City '${city}' not found in list` });
     }
 
-    // 🌍 Build OpenWeather API URL
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${API_KEY}&units=metric`;
-
     const response = await fetch(url);
 
     if (!response.ok) {
       if (response.status === 401 || response.status === 404) {
-        console.warn(`⚠️  OpenWeather API key inactive or invalid (status ${response.status})`);
+        console.warn(`⚠️ OpenWeather API key inactive or invalid (status ${response.status})`);
         return res.status(503).json({
           error: "⚠️ OpenWeather API key not yet active or invalid. Please wait a few minutes.",
         });
@@ -69,15 +67,7 @@ app.get("/api/weather", async (req, res) => {
       time: new Date().toLocaleString(),
     };
 
-    console.log("\n-----------------------------------------------------");
-    console.log(`🌆 City: ${city}`);
-    console.log(`🌡️ Temperature: ${weatherData.temp} °C`);
-    console.log(`💧 Humidity: ${weatherData.humidity} %`);
-    console.log(`🧭 Pressure: ${weatherData.pressure} hPa`);
-    console.log(`🌬️ Wind Speed: ${weatherData.wind} m/s`);
-    console.log(`☁️ Condition: ${weatherData.description}`);
-    console.log(`🕒 Updated: ${weatherData.time}`);
-    console.log("-----------------------------------------------------\n");
+    console.log(`🌆 City: ${city} | 🌡️ ${weatherData.temp}°C | 💧 ${weatherData.humidity}% | 🕒 ${weatherData.time}`);
 
     res.json(weatherData);
   } catch (error) {
@@ -95,6 +85,4 @@ app.get("/", (req, res) => {
 
 // ✅ Dynamic port for Render/Vercel
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`✅ Server running on port ${PORT}`)
-);
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
