@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Weather Monitoring Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>🌦 Smart Weather Monitoring Dashboard</h1>
+    <p class="subtitle">IoT-based Live Environmental Data Visualization</p>
+
+    <div class="controls">
+      <select id="citySelect">
+        <option value="Delhi">Delhi</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Bengaluru">Bengaluru</option>
+        <option value="Dharmavaram">Dharmavaram</option>
+        <option value="Ongole">Ongole</option>
+      </select>
+      <button id="refreshBtn">🔄 Refresh Now</button>
+    </div>
+
+    <canvas id="weatherChart"></canvas>
+    <canvas id="trendChart" class="trend"></canvas>
+
+    <div id="values" class="values"></div>
+    <div id="status"></div>
+
+    <footer>
+      <small>Developed by Pallavi | Node.js • Express • Chart.js • OpenWeather API</small>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
