@@ -1,20 +1,17 @@
 {
   "name": "iot",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "Smart Weather Monitoring Dashboard Backend",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sasikiran",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "node-fetch": "^3.3.2"
+    "express": "^5.1.0"
   },
   "repository": {
     "type": "git",
