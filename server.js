@@ -8,12 +8,13 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5500",           // VS Code Live Server
-      "http://127.0.0.1:5500",
-      "https://io-t-dashboard-phi.vercel.app/",    // your deployed frontend domain
+      "http://localhost:5500", // local testing
+      "https://iot-dashboard-j1qr.onrender.com", // backend itself
+      "https://iot-frontend.vercel.app" // will replace after Vercel deploy
     ],
   })
 );
+
 
 // ✅ Use environment variables for security
 const API_KEY = process.env.OPENWEATHER_API_KEY || "e5bdd8022442650012dc70f51425f226";
