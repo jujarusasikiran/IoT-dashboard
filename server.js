@@ -9,8 +9,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5500", // local testing
-      "https://iot-dashboard-j1qr.onrender.com", // backend itself
-      "https://iot-frontend.vercel.app" // will replace after Vercel deploy
+      "https://iot-dashboard-j1qr.onrender.com",
+      "https://io-t-dashboard-six.vercel.app"
     ],
   })
 );
